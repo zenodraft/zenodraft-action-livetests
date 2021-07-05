@@ -2,9 +2,6 @@ name: livetests
 on:
   workflow_dispatch:
 
-env:
-  USES: zenodraft/action@8-upserting-octokit
-
 jobs:
   no-args:
       runs-on: ubuntu-latest
@@ -15,7 +12,7 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}        
-          uses: ${{ USES }}
+          uses: zenodraft/action@8-upserting-octokit
 
 
   in-collection:
@@ -27,7 +24,7 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}        
-          uses: ${{ USES }}
+          uses: zenodraft/action@8-upserting-octokit
           with:
             collection: '831247'
             metadata: .github/.zenodo-in-collection.json
@@ -44,7 +41,7 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}        
-          uses: ${{ USES }}
+          uses: zenodraft/action@8-upserting-octokit
           with:
             filenames: test.txt test.pdf
             metadata: .github/.zenodo-with-filenames.json
@@ -59,7 +56,7 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}        
-          uses: ${{ USES }}
+          uses: zenodraft/action@8-upserting-octokit
           with:
             compression: tar.gz
             metadata: .github/.zenodo-with-compression-tar-gz.json
@@ -74,7 +71,7 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}
-          uses: ${{ USES }}
+          uses: zenodraft/action@8-upserting-octokit
           with:
             upsert-doi: true
             upsert-location: identifiers
