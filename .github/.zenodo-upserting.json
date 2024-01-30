@@ -1,4 +1,4 @@
 {
-    "title": "Automated deposition for testing zenodraft action with upserting the prereserved doi",
-    "version": "with-upserting"
+    "title": "with-upserting",
+    "description": "Automated deposition for testing zenodraft action with upserting the prereserved doi"
 }
