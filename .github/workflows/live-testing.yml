@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
 
 jobs:
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}
 
   no-args:
       runs-on: ubuntu-latest
@@ -11,9 +14,6 @@ jobs:
         - name: checkout
           uses: actions/checkout@v4
         - name: Test without any input arguments / creating a draft in a new concept
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}
           uses: zenodraft/action@main
 
 
@@ -23,9 +23,6 @@ jobs:
         - name: checkout
           uses: actions/checkout@v4
         - name: Test creating a draft in an existing concept
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}
           uses: zenodraft/action@main
           with:
             concept: '23750'
@@ -37,12 +34,11 @@ jobs:
       steps:
         - name: checkout
           uses: actions/checkout@v4
-        - run: echo "txt contents" > test.txt
-        - run: echo "pdf contents" > test.pdf
+        - name: Generate dummy files
+          run: |
+            echo "txt contents" > test.txt
+            echo "pdf contents" > test.pdf
         - name: Test with filenames
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}
           uses: zenodraft/action@main
           with:
             filenames: test.txt test.pdf
@@ -55,9 +51,6 @@ jobs:
         - name: checkout
           uses: actions/checkout@v4
         - name: Test with compression tar.gz instead of default zip
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}
           uses: zenodraft/action@main
           with:
             compression: tar.gz
@@ -70,9 +63,6 @@ jobs:
         - name: checkout
           uses: actions/checkout@v4
         - name: Test upserting the CITATION.cff with the prereserved doi
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}
           uses: zenodraft/action@main
           with:
             upsert-doi: true
