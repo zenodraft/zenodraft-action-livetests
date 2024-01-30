@@ -1,4 +1,4 @@
 {
-    "title": "Automated deposition for testing zenodraft action with compression",
-    "version": "with-compression-tar-gz"
+    "description": "Automated deposition for testing zenodraft action with compression",
+    "title": "with-compression-tar-gz"
 }
