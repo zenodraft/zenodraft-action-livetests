@@ -19,6 +19,7 @@ jobs:
 
 
   in-concept:
+      needs: no-args
       runs-on: ubuntu-latest
       steps:
         - name: checkout
@@ -31,6 +32,7 @@ jobs:
 
 
   with-filenames:
+      needs: in-concept
       runs-on: ubuntu-latest
       steps:
         - name: checkout
@@ -47,6 +49,7 @@ jobs:
 
 
   with-compression-tar-gz:
+      needs: with-filenames
       runs-on: ubuntu-latest
       steps:
         - name: checkout
@@ -59,6 +62,7 @@ jobs:
 
 
   with-upserting:
+      needs: with-compression-tar-gz
       runs-on: ubuntu-latest
       steps:
         - name: checkout
