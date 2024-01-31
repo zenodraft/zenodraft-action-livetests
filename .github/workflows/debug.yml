@@ -1,0 +1,23 @@
+name: livetests
+
+on:
+  workflow_dispatch:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}
+
+
+jobs:
+
+  in-concept:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: Test creating a draft in an existing concept
+          uses: zenodraft/action@main
+          with:
+            concept: '23750'
+            metadata: .github/.zenodo-in-concept.json
+            verbose: true
