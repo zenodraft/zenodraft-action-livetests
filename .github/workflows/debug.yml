@@ -23,3 +23,7 @@ jobs:
         #     verbose: true
         - name: debugging making a zipfile
           run: zip -r -v zipped.zip . -x /.git/* 
+        - name: debugging making a tarfile
+          run: |
+            touch tarred.tar.gz
+            tar --exclude-vcs --exclude='.' --exclude='..' --exclude=tarred.tar.gz -zcvf tarred.tar.gz `ls -1a`
