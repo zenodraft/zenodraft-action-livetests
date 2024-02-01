@@ -78,31 +78,8 @@ jobs:
   #          verbose: true
 
 
-  with-compression-tar-gz:
-      #needs: with-filenames
-      runs-on: ubuntu-latest
-      steps:
-        - name: checkout
-          uses: actions/checkout@v4
-        - name: make contents of the repo unique
-          run: |
-            git config --global user.name 'jspaaks via CI'
-            git config --global user.email 'jspaaks@users.noreply.github.com'
-            git pull
-            date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
-            git add last-update.txt
-            git commit -m "bumped last update date"
-            git push
-        - name: Test with compression tar.gz instead of default zip
-          uses: zenodraft/action@dbg
-          with:
-            compression: tar.gz
-            metadata: .github/.zenodo-with-compression-tar-gz.json
-            verbose: true
-
-
-  #with-upserting:
-  #    needs: with-compression-tar-gz
+  #with-compression-tar-gz:
+  #    #needs: with-filenames
   #    runs-on: ubuntu-latest
   #    steps:
   #      - name: checkout
@@ -116,13 +93,36 @@ jobs:
   #          git add last-update.txt
   #          git commit -m "bumped last update date"
   #          git push
-  #      - name: Test upserting the CITATION.cff with the prereserved doi
+  #      - name: Test with compression tar.gz instead of default zip
   #        uses: zenodraft/action@dbg
   #        with:
-  #          upsert-doi: true
-  #          upsert-location: identifiers
-  #          metadata: .github/.zenodo-upserting.json
-  #          filenames: CITATION.cff
+  #          compression: tar.gz
+  #          metadata: .github/.zenodo-with-compression-tar-gz.json
   #          verbose: true
-  #      - name: check CITATION.cff
-  #        run: cat CITATION.cff
+
+
+  with-upserting:
+      #needs: with-compression-tar-gz
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: make contents of the repo unique
+          run: |
+            git config --global user.name 'jspaaks via CI'
+            git config --global user.email 'jspaaks@users.noreply.github.com'
+            git pull
+            date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+            git add last-update.txt
+            git commit -m "bumped last update date"
+            git push
+        - name: Test upserting the CITATION.cff with the prereserved doi
+          uses: zenodraft/action@dbg
+          with:
+            upsert-doi: true
+            upsert-location: identifiers
+            metadata: .github/.zenodo-upserting.json
+            filenames: CITATION.cff
+            verbose: true
+        - name: check CITATION.cff
+          run: cat CITATION.cff
