@@ -39,6 +39,7 @@ jobs:
             date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
             git config --global user.name 'jspaaks via CI'
             git config --global user.email 'jspaaks@users.noreply.github.com'
+            git pull
             git add last-update.txt
             git commit -m "bumped last update date"
             git push
