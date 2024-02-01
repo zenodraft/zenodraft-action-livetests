@@ -28,54 +28,54 @@ jobs:
   #          verbose: true
 
 
-  #in-concept:
-  #    #needs: no-args
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - name: checkout
-  #        uses: actions/checkout@v4
-  #      - name: make contents of the repo unique
-  #        run: |
-  #          git config --global user.name 'jspaaks via CI'
-  #          git config --global user.email 'jspaaks@users.noreply.github.com'
-  #          git pull
-  #          date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
-  #          git add last-update.txt
-  #          git commit -m "bumped last update date"
-  #          git push
-  #      - name: Test creating a draft in an existing concept
-  #        uses: zenodraft/action@dbg
-  #        with:
-  #          concept: '23750'
-  #          metadata: .github/.zenodo-in-concept.json
-  #          verbose: true
+  in-concept:
+      #needs: no-args
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: make contents of the repo unique
+          run: |
+            git config --global user.name 'jspaaks via CI'
+            git config --global user.email 'jspaaks@users.noreply.github.com'
+            git pull
+            date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+            git add last-update.txt
+            git commit -m "bumped last update date"
+            git push
+        - name: Test creating a draft in an existing concept
+          uses: zenodraft/action@dbg
+          with:
+            concept: '23750'
+            metadata: .github/.zenodo-in-concept.json
+            verbose: true
 
 
-  #with-filenames:
-  #    #needs: in-concept
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - name: checkout
-  #        uses: actions/checkout@v4
-  #      - name: make contents of the repo unique
-  #        run: |
-  #          git config --global user.name 'jspaaks via CI'
-  #          git config --global user.email 'jspaaks@users.noreply.github.com'
-  #          git pull
-  #          date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
-  #          git add last-update.txt
-  #          git commit -m "bumped last update date"
-  #          git push
-  #      - name: Generate dummy files
-  #        run: |
-  #          echo "txt contents" > test.txt
-  #          echo "pdf contents" > test.pdf
-  #      - name: Test with filenames
-  #        uses: zenodraft/action@dbg
-  #        with:
-  #          filenames: test.txt test.pdf
-  #          metadata: .github/.zenodo-with-filenames.json
-  #          verbose: true
+  with-filenames:
+      needs: in-concept
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: make contents of the repo unique
+          run: |
+            git config --global user.name 'jspaaks via CI'
+            git config --global user.email 'jspaaks@users.noreply.github.com'
+            git pull
+            date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+            git add last-update.txt
+            git commit -m "bumped last update date"
+            git push
+        - name: Generate dummy files
+          run: |
+            echo "txt contents" > test.txt
+            echo "pdf contents" > test.pdf
+        - name: Test with filenames
+          uses: zenodraft/action@dbg
+          with:
+            filenames: test.txt test.pdf
+            metadata: .github/.zenodo-with-filenames.json
+            verbose: true
 
 
   #with-compression-tar-gz:
@@ -102,7 +102,7 @@ jobs:
 
 
   with-upserting:
-      #needs: with-compression-tar-gz
+      needs: with-filenames
       runs-on: ubuntu-latest
       steps:
         - name: checkout
