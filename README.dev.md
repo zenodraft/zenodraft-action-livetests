@@ -34,4 +34,3 @@ Additionally, it is sometimes useful to manually craft requests to send to Zenod
 TODO:
 
 1. investigate: since clearing the metadata amounts to writing minimal metadata, there may be failures due to metadata that is exactly equal which Zenodo might not like. Could possibly be avoided by having zenodraft insert a `version` with a datetime of now.
-1. fix: making a tar doesnt work in 85c3203cdb32a70448bd592fa4ec7748c05d8c9b because of the nested `ls -1a` which is treated as a filename
