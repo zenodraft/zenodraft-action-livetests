@@ -51,36 +51,54 @@ jobs:
   #          verbose: true
 
 
-  with-filenames:
-      #needs: in-concept
-      runs-on: ubuntu-latest
-      steps:
-        - name: checkout
-          uses: actions/checkout@v4
-        - name: Generate dummy files
-          run: |
-            echo "txt contents" > test.txt
-            echo "pdf contents" > test.pdf
-        - name: Test with filenames
-          uses: zenodraft/action@dbg
-          with:
-            filenames: test.txt test.pdf
-            metadata: .github/.zenodo-with-filenames.json
-            verbose: true
-
-
-  #with-compression-tar-gz:
-  #    needs: with-filenames
+  #with-filenames:
+  #    #needs: in-concept
   #    runs-on: ubuntu-latest
   #    steps:
   #      - name: checkout
   #        uses: actions/checkout@v4
-  #      - name: Test with compression tar.gz instead of default zip
+  #      - name: make contents of the repo unique
+  #        run: |
+  #          git config --global user.name 'jspaaks via CI'
+  #          git config --global user.email 'jspaaks@users.noreply.github.com'
+  #          git pull
+  #          date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+  #          git add last-update.txt
+  #          git commit -m "bumped last update date"
+  #          git push
+  #      - name: Generate dummy files
+  #        run: |
+  #          echo "txt contents" > test.txt
+  #          echo "pdf contents" > test.pdf
+  #      - name: Test with filenames
   #        uses: zenodraft/action@dbg
   #        with:
-  #          compression: tar.gz
-  #          metadata: .github/.zenodo-with-compression-tar-gz.json
+  #          filenames: test.txt test.pdf
+  #          metadata: .github/.zenodo-with-filenames.json
   #          verbose: true
+
+
+  with-compression-tar-gz:
+      #needs: with-filenames
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: make contents of the repo unique
+          run: |
+            git config --global user.name 'jspaaks via CI'
+            git config --global user.email 'jspaaks@users.noreply.github.com'
+            git pull
+            date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+            git add last-update.txt
+            git commit -m "bumped last update date"
+            git push
+        - name: Test with compression tar.gz instead of default zip
+          uses: zenodraft/action@dbg
+          with:
+            compression: tar.gz
+            metadata: .github/.zenodo-with-compression-tar-gz.json
+            verbose: true
 
 
   #with-upserting:
@@ -89,6 +107,15 @@ jobs:
   #    steps:
   #      - name: checkout
   #        uses: actions/checkout@v4
+  #      - name: make contents of the repo unique
+  #        run: |
+  #          git config --global user.name 'jspaaks via CI'
+  #          git config --global user.email 'jspaaks@users.noreply.github.com'
+  #          git pull
+  #          date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+  #          git add last-update.txt
+  #          git commit -m "bumped last update date"
+  #          git push
   #      - name: Test upserting the CITATION.cff with the prereserved doi
   #        uses: zenodraft/action@dbg
   #        with:
