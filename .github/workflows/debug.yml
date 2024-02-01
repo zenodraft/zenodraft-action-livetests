@@ -9,8 +9,19 @@ env:
 
 
 jobs:
+  no-args:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: Test without any input arguments / creating a draft in a new concept
+          uses: zenodraft/action@dbg
+          with:
+            verbose: true
+
 
   in-concept:
+      needs: no-args
       runs-on: ubuntu-latest
       steps:
         - name: checkout
@@ -21,10 +32,53 @@ jobs:
             concept: '23750'
             metadata: .github/.zenodo-in-concept.json
             verbose: true
-        # - name: debugging making a zipfile
-        #   run: zip -r -v zipped.zip . -x /.git/* 
-        # - name: debugging making a tarfile
-        #   run: |
-        #     rm zipped.zip
-        #     touch tarred.tar.gz
-        #     tar --exclude='.' --exclude='..' --exclude='.git' --exclude=tarred.tar.gz -zcvf tarred.tar.gz `ls -1a`
+
+
+  with-filenames:
+      needs: in-concept
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: Generate dummy files
+          run: |
+            echo "txt contents" > test.txt
+            echo "pdf contents" > test.pdf
+        - name: Test with filenames
+          uses: zenodraft/action@dbg
+          with:
+            filenames: test.txt test.pdf
+            metadata: .github/.zenodo-with-filenames.json
+            verbose: true
+
+
+  with-compression-tar-gz:
+      needs: with-filenames
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: Test with compression tar.gz instead of default zip
+          uses: zenodraft/action@dbg
+          with:
+            compression: tar.gz
+            metadata: .github/.zenodo-with-compression-tar-gz.json
+            verbose: true
+
+
+  with-upserting:
+      needs: with-compression-tar-gz
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: Test upserting the CITATION.cff with the prereserved doi
+          uses: zenodraft/action@dbg
+          with:
+            upsert-doi: true
+            upsert-location: identifiers
+            metadata: .github/.zenodo-upserting.json
+            filenames: CITATION.cff
+            verbose: true
+        - name: check CITATION.cff
+          run: cat CITATION.cff
