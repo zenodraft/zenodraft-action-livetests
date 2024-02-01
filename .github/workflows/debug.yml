@@ -15,16 +15,16 @@ jobs:
       steps:
         - name: checkout
           uses: actions/checkout@v4
-        # - name: Test creating a draft in an existing concept
-        #   uses: zenodraft/action@main
-        #   with:
-        #     concept: '23750'
-        #     metadata: .github/.zenodo-in-concept.json
-        #     verbose: true
-        - name: debugging making a zipfile
-          run: zip -r -v zipped.zip . -x /.git/* 
-        - name: debugging making a tarfile
-          run: |
-            rm zipped.zip
-            touch tarred.tar.gz
-            tar --exclude='.' --exclude='..' --exclude='.git' --exclude=tarred.tar.gz -zcvf tarred.tar.gz `ls -1a`
+        - name: Test creating a draft in an existing concept
+          uses: zenodraft/action@main
+          with:
+            concept: '23750'
+            metadata: .github/.zenodo-in-concept.json
+            verbose: true
+        # - name: debugging making a zipfile
+        #   run: zip -r -v zipped.zip . -x /.git/* 
+        # - name: debugging making a tarfile
+        #   run: |
+        #     rm zipped.zip
+        #     touch tarred.tar.gz
+        #     tar --exclude='.' --exclude='..' --exclude='.git' --exclude=tarred.tar.gz -zcvf tarred.tar.gz `ls -1a`
