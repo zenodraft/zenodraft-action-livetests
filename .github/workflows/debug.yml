@@ -9,7 +9,7 @@ env:
 
 
 jobs:
-  no-args:
+  new-concept-no-args:
       runs-on: ubuntu-latest
       steps:
         - name: checkout
@@ -29,31 +29,8 @@ jobs:
             verbose: true
 
 
-  #in-concept:
-  #    #needs: no-args
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - name: checkout
-  #        uses: actions/checkout@v4
-  #      - name: make contents of the repo unique
-  #        run: |
-  #          git config --global user.name 'jspaaks via CI'
-  #          git config --global user.email 'jspaaks@users.noreply.github.com'
-  #          git pull
-  #          date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
-  #          git add last-update.txt
-  #          git commit -m "bumped last update date"
-  #          git push
-  #      - name: Test creating a draft in an existing concept
-  #        uses: zenodraft/action@dbg
-  #        with:
-  #          concept: '23750'
-  #          metadata: .github/.zenodo-in-concept.json
-  #          verbose: true
-
-
-  with-filenames:
-      needs: no-args
+  new-concept-with-filenames:
+      needs: new-concept-no-args
       runs-on: ubuntu-latest
       steps:
         - name: checkout
@@ -79,8 +56,8 @@ jobs:
             verbose: true
 
 
-  with-compression-tar-gz:
-      needs: with-filenames
+  new-concept-with-compression-tar-gz:
+      needs: new-concept-with-filenames
       runs-on: ubuntu-latest
       steps:
         - name: checkout
@@ -102,8 +79,8 @@ jobs:
             verbose: true
 
 
-  with-upserting:
-      needs: with-compression-tar-gz
+  new-concept-with-upserting:
+      needs: new-concept-with-compression-tar-gz
       runs-on: ubuntu-latest
       steps:
         - name: checkout
@@ -127,3 +104,27 @@ jobs:
             verbose: true
         - name: check CITATION.cff
           run: cat CITATION.cff
+
+
+  #new-version-in-concept:
+  #    #needs: new-concept-no-args
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - name: checkout
+  #        uses: actions/checkout@v4
+  #      - name: make contents of the repo unique
+  #        run: |
+  #          git config --global user.name 'jspaaks via CI'
+  #          git config --global user.email 'jspaaks@users.noreply.github.com'
+  #          git pull
+  #          date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+  #          git add last-update.txt
+  #          git commit -m "bumped last update date"
+  #          git push
+  #      - name: Test creating a draft in an existing concept
+  #        uses: zenodraft/action@dbg
+  #        with:
+  #          concept: '23750'
+  #          metadata: .github/.zenodo-in-concept.json
+  #          verbose: true
+  
