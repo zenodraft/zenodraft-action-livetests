@@ -1,129 +1,119 @@
+---
 name: debug
-
 on:
-  workflow_dispatch:
-
+  workflow_dispatch: null
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   ZENODO_SANDBOX_ACCESS_TOKEN: ${{ secrets.ZENODO_SANDBOX_ACCESS_TOKEN }}
-
-
 jobs:
   new-concept-no-args:
-      runs-on: ubuntu-latest
-      steps:
-        - name: checkout
-          uses: actions/checkout@v4
-        - name: make contents of the repo unique
-          run: |
-            git config --global user.name 'jspaaks via CI'
-            git config --global user.email 'jspaaks@users.noreply.github.com'
-            git pull
-            date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
-            git add last-update.txt
-            git commit -m "bumped last update date"
-            git push
-        - name: Test without any input arguments / creating a draft in a new concept
-          uses: zenodraft/action@dbg
-          with:
-            verbose: true
-
-
-  new-concept-with-filenames:
-      needs: new-concept-no-args
-      runs-on: ubuntu-latest
-      steps:
-        - name: checkout
-          uses: actions/checkout@v4
-        - name: make contents of the repo unique
-          run: |
-            git config --global user.name 'jspaaks via CI'
-            git config --global user.email 'jspaaks@users.noreply.github.com'
-            git pull
-            date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
-            git add last-update.txt
-            git commit -m "bumped last update date"
-            git push
-        - name: Generate dummy files
-          run: |
-            echo "txt contents" > test.txt
-            echo "pdf contents" > test.pdf
-        - name: Test with filenames
-          uses: zenodraft/action@dbg
-          with:
-            filenames: test.txt test.pdf
-            metadata: .github/.zenodo-with-filenames.json
-            verbose: true
-
-
-  new-concept-with-compression-tar-gz:
-      needs: new-concept-with-filenames
-      runs-on: ubuntu-latest
-      steps:
-        - name: checkout
-          uses: actions/checkout@v4
-        - name: make contents of the repo unique
-          run: |
-            git config --global user.name 'jspaaks via CI'
-            git config --global user.email 'jspaaks@users.noreply.github.com'
-            git pull
-            date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
-            git add last-update.txt
-            git commit -m "bumped last update date"
-            git push
-        - name: Test with compression tar.gz instead of default zip
-          uses: zenodraft/action@dbg
-          with:
-            compression: tar.gz
-            metadata: .github/.zenodo-with-compression-tar-gz.json
-            verbose: true
-
-
-  new-concept-with-upserting:
-      needs: new-concept-with-compression-tar-gz
-      runs-on: ubuntu-latest
-      steps:
-        - name: checkout
-          uses: actions/checkout@v4
-        - name: make contents of the repo unique
-          run: |
-            git config --global user.name 'jspaaks via CI'
-            git config --global user.email 'jspaaks@users.noreply.github.com'
-            git pull
-            date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
-            git add last-update.txt
-            git commit -m "bumped last update date"
-            git push
-        - name: Test upserting the CITATION.cff with the prereserved doi
-          uses: zenodraft/action@dbg
-          with:
-            upsert-doi: true
-            upsert-location: identifiers
-            metadata: .github/.zenodo-upserting.json
-            filenames: CITATION.cff
-            verbose: true
-        - name: check CITATION.cff
-          run: cat CITATION.cff
-
-
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: make contents of the repo unique
+        run: |
+          git config --global user.name 'jspaaks via CI'
+          git config --global user.email 'jspaaks@users.noreply.github.com'
+          git pull
+          date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+          git add last-update.txt
+          git commit -m "bumped last update date"
+          git push
+      - name: Test without any input arguments / creating a draft in a new concept
+        uses: zenodraft/action@dbg
+        with:
+          verbose: true
   new-version-in-concept:
-     needs: new-concept-with-upserting
-     runs-on: ubuntu-latest
-     steps:
-       - name: checkout
-         uses: actions/checkout@v4
-       - name: make contents of the repo unique
-         run: |
-           git config --global user.name 'jspaaks via CI'
-           git config --global user.email 'jspaaks@users.noreply.github.com'
-           git pull
-           date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
-           git add last-update.txt
-           git commit -m "bumped last update date"
-           git push
-       - name: Test creating a draft in an existing concept
-         uses: zenodraft/action@dbg
-         with:
-           concept: '23750'
-           metadata: .github/.zenodo-in-concept.json
-           verbose: true
+    needs: new-concept-no-args
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: make contents of the repo unique
+        run: |
+          git config --global user.name 'jspaaks via CI'
+          git config --global user.email 'jspaaks@users.noreply.github.com'
+          git pull
+          date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+          git add last-update.txt
+          git commit -m "bumped last update date"
+          git push
+      - name: Test creating a draft in an existing concept
+        uses: zenodraft/action@dbg
+        with:
+          concept: "23750"
+          metadata: .github/.zenodo-in-concept.json
+          verbose: true
+  new-concept-with-filenames:
+    needs: new-version-in-concept
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: make contents of the repo unique
+        run: |
+          git config --global user.name 'jspaaks via CI'
+          git config --global user.email 'jspaaks@users.noreply.github.com'
+          git pull
+          date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+          git add last-update.txt
+          git commit -m "bumped last update date"
+          git push
+      - name: Generate dummy files
+        run: |
+          echo "txt contents" > test.txt
+          echo "pdf contents" > test.pdf
+      - name: Test with filenames
+        uses: zenodraft/action@dbg
+        with:
+          filenames: test.txt test.pdf
+          metadata: .github/.zenodo-with-filenames.json
+          verbose: true
+  new-concept-with-compression-tar-gz:
+    needs: new-concept-with-filenames
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: make contents of the repo unique
+        run: |
+          git config --global user.name 'jspaaks via CI'
+          git config --global user.email 'jspaaks@users.noreply.github.com'
+          git pull
+          date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+          git add last-update.txt
+          git commit -m "bumped last update date"
+          git push
+      - name: Test with compression tar.gz instead of default zip
+        uses: zenodraft/action@dbg
+        with:
+          compression: tar.gz
+          metadata: .github/.zenodo-with-compression-tar-gz.json
+          verbose: true
+  new-concept-with-upserting:
+    needs: new-concept-with-compression-tar-gz
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: make contents of the repo unique
+        run: |
+          git config --global user.name 'jspaaks via CI'
+          git config --global user.email 'jspaaks@users.noreply.github.com'
+          git pull
+          date +'%B %d, %Y %H:%M:%S %Z' > last-update.txt
+          git add last-update.txt
+          git commit -m "bumped last update date"
+          git push
+      - name: Test upserting the CITATION.cff with the prereserved doi
+        uses: zenodraft/action@dbg
+        with:
+          upsert-doi: true
+          upsert-location: identifiers
+          metadata: .github/.zenodo-upserting.json
+          filenames: CITATION.cff
+          verbose: true
+      - name: check CITATION.cff
+        run: cat CITATION.cff
+
