@@ -107,7 +107,7 @@ jobs:
 
 
   new-version-in-concept:
-     needs: new-concept-with-compression-tar-gz
+     needs: new-concept-with-upserting
      runs-on: ubuntu-latest
      steps:
        - name: checkout
