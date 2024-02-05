@@ -43,7 +43,7 @@ jobs:
         uses: zenodraft/action@dbg
         with:
           concept: "23750"
-          metadata: .github/.zenodo-in-concept.json
+          metadata: .github/new-version-in-concept.json
           verbose: true
   new-concept-with-filenames:
     needs: new-version-in-concept
@@ -68,7 +68,7 @@ jobs:
         uses: zenodraft/action@dbg
         with:
           filenames: test.txt test.pdf
-          metadata: .github/.zenodo-with-filenames.json
+          metadata: .github/new-concept-with-filenames.json
           verbose: true
   new-concept-with-compression-tar-gz:
     needs: new-concept-with-filenames
@@ -89,7 +89,7 @@ jobs:
         uses: zenodraft/action@dbg
         with:
           compression: tar.gz
-          metadata: .github/.zenodo-with-compression-tar-gz.json
+          metadata: .github/new-concept-with-compression-tar-gz.json
           verbose: true
   new-concept-with-upserting:
     needs: new-concept-with-compression-tar-gz
@@ -111,7 +111,7 @@ jobs:
         with:
           upsert-doi: true
           upsert-location: identifiers
-          metadata: .github/.zenodo-upserting.json
+          metadata: .github/new-concept-with-upserting.json
           filenames: CITATION.cff
           verbose: true
       - name: check CITATION.cff

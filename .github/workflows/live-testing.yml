@@ -41,7 +41,7 @@ jobs:
         uses: zenodraft/action@main
         with:
           concept: "23750"
-          metadata: .github/.zenodo-in-concept.json
+          metadata: .github/new-version-in-concept.json
   new-concept-with-filenames:
     needs: new-version-in-concept
     runs-on: ubuntu-latest
@@ -65,7 +65,7 @@ jobs:
         uses: zenodraft/action@main
         with:
           filenames: test.txt test.pdf
-          metadata: .github/.zenodo-with-filenames.json
+          metadata: .github/new-concept-with-filenames.json
   new-concept-with-compression-tar-gz:
     needs: new-concept-with-filenames
     runs-on: ubuntu-latest
@@ -85,7 +85,7 @@ jobs:
         uses: zenodraft/action@main
         with:
           compression: tar.gz
-          metadata: .github/.zenodo-with-compression-tar-gz.json
+          metadata: .github/new-concept-with-compression-tar-gz.json
   new-concept-with-upserting:
     needs: new-concept-with-compression-tar-gz
     runs-on: ubuntu-latest
@@ -106,7 +106,7 @@ jobs:
         with:
           upsert-doi: true
           upsert-location: identifiers
-          metadata: .github/.zenodo-upserting.json
+          metadata: .github/new-concept-with-upserting.json
           filenames: CITATION.cff
       - name: check CITATION.cff
         run: cat CITATION.cff
